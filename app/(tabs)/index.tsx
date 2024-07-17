@@ -119,54 +119,6 @@ fetchWeatherData();
       </View>
     </ImageBackground>
    );
-  // return (
-  //       <ImageBackground source={backgroundColor} style={styles.background}>
-  //       <View style={styles.container}>
-  //       <View style={styles.header}>
-  //         <Text style={styles.location}>GALLE</Text>
-  //         <Text style={styles.date}>Wed 12 January 11:26 AM</Text>
-  //       </View>
-  //       <View style={styles.mainInfo}>
-  //         <Text style={styles.temperature}>28°</Text>
-  //         <View style={styles.weatherIcon}>
-  //           <Image source={require('../../assets/images/weatherpics/03d.png')} style={styles.icon} />
-  //         </View>
-  //         <Text style={styles.weatherDescription}>SCATTERED CLOUDS</Text>
-  //       </View>
-  //       <View style={styles.details}>
-  //         <View style={styles.detail}>
-  //           <Text style={styles.detailValue}>28°C</Text>
-  //           <Text style={styles.detailLabel}>Max Temp</Text>
-  //         </View>
-  //         <View style={styles.detail}>
-  //           <Text style={styles.detailValue}>67%</Text>
-  //           <Text style={styles.detailLabel}>Humidity</Text>
-  //         </View>
-  //         <View style={styles.detail}>
-  //           <Text style={styles.detailValue}>2.51m/s</Text>
-  //           <Text style={styles.detailLabel}>Wind</Text>
-  //         </View>
-  //       </View>
-  //       <View style={styles.forecast}>
-  //         <View style={styles.forecastItem}>
-  //           <Text style={styles.forecastTime}>11:30 AM</Text>
-  //           <Image source={require('../../assets/images/weatherpics/03d.png')} style={styles.icon} />
-  //           <Text style={styles.forecastTemp}>28.86°C</Text>
-  //         </View>
-  //         <View style={styles.forecastItem}>
-  //           <Text style={styles.forecastTime}>12:30 PM</Text>
-  //           <Image source={require('../../assets/images/weatherpics/03d.png')} style={styles.icon} />
-  //           <Text style={styles.forecastTemp}>28.83°C</Text>
-  //         </View>
-  //         <View style={styles.forecastItem}>
-  //           <Text style={styles.forecastTime}>1:30 PM</Text>
-  //           <Image source={require('../../assets/images/weatherpics/03d.png')} style={styles.icon} />
-  //           <Text style={styles.forecastTemp}>28.38°C</Text>
-  //         </View>
-  //       </View>
-  //     </View>
-  //     </ImageBackground>
-  // );
 }
 
 const styles = StyleSheet.create({
