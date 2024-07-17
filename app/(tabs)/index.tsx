@@ -1,7 +1,8 @@
-import { Image, StyleSheet, Platform , View, Dimensions,Text,ImageBackground,ActivityIndicator } from 'react-native';
+import { Image, StyleSheet, Platform , View, Dimensions,Text,ImageBackground,ActivityIndicator,TouchableOpacity } from 'react-native';
 import React, { useState, useEffect } from 'react';
 import * as Location from 'expo-location';
 import axios from 'axios';
+import { Ionicons } from '@expo/vector-icons';
 
 
 import { HelloWave } from '@/components/HelloWave';
@@ -73,6 +74,14 @@ fetchWeatherData();
         <View style={styles.header}>
           <Text style={styles.location}>{name.toUpperCase()}</Text>
           <Text style={styles.date}>{new Date().toLocaleString()}</Text>
+          <View style={styles.headerButtons}>
+          <TouchableOpacity style={styles.headerButton}>
+              <Ionicons name="star" size={24} color="white" />
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.headerButton}>
+              <Ionicons name="search" size={24} color="white" />
+            </TouchableOpacity>
+          </View>
         </View>
         <View style={styles.mainInfo}>
           <Text style={styles.temperature}>{Math.round(main.temp)}°</Text>
@@ -183,6 +192,7 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   location: {
+    marginTop:30,
     fontSize: 24,
     fontWeight: 'bold',
     color: 'white',
@@ -246,6 +256,16 @@ const styles = StyleSheet.create({
   background: {
     flex: 1,
     resizeMode: 'cover',
+  },
+  headerButtons: { // Added styles for header buttons container
+    position: 'absolute',
+    marginLeft:30,
+    top: 10,
+    right: 10,
+    flexDirection: 'row',
+  },
+  headerButton: { // Added styles for individual header buttons
+    marginLeft: 10,
   },
 }
 
