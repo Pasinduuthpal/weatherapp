@@ -1,4 +1,7 @@
-import { Image, StyleSheet, Platform , View, Dimensions,Text,ImageBackground } from 'react-native';
+import { Image, StyleSheet, Platform , View, Dimensions,Text,ImageBackground,ActivityIndicator } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import * as Location from 'expo-location';
+import axios from 'axios';
 
 
 import { HelloWave } from '@/components/HelloWave';
@@ -15,67 +18,147 @@ const isDayTime = () => {
 
 export default function HomeScreen() {
 
+  const [weatherData, setWeatherData] = useState(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchWeatherData = (async () => {
+  try {
+    const { status } = await Location.requestForegroundPermissionsAsync();
+    if (status !== 'granted') {
+      console.error('Permission to access location was denied');
+      return;
+    }
+
+    const location = await Location.getCurrentPositionAsync({});
+    const { latitude, longitude } = location.coords;
+
+    const apiKey = 'c9e5f9c9bbeb12fcfcee082daff2a77c'; 
+    const apiUrl = `https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&units=metric&appid=${apiKey}&units=metric`;
+
+    const response = await axios.get(apiUrl);
+    setWeatherData(response.data);
+    setLoading(false);
+  } catch (error) {
+    console.error('Error fetching weather data:', error);
+    setLoading(false);
+  }
+})
+fetchWeatherData();
+  },[]);
+  
+
+  if (loading) {
+    return (
+      <View style={styles.loadingContainer}>
+        <ActivityIndicator size="large" color="#0000ff" />
+      </View>
+    );
+  }if (!weatherData) {
+    return (
+      <View style={styles.errorContainer}>
+        <Text>Failed to load weather data</Text>
+      </View>
+    );
+  }
   const backgroundColor = isDayTime()
-    ? require('../../assets/images/day.jpg')
-    : require('../../assets/images/night.jpg'); 
+  ? require('../../assets/images/day.jpg')
+  : require('../../assets/images/night.jpg'); 
 
-
-  return (
-    
-        // <Image
-        //   source={require('../../assets/images/day.jpg')}
-        //   style={styles.reactLogo}
-        // />
-        <ImageBackground source={backgroundColor} style={styles.background}>
-        <View style={styles.container}>
+  const { main, weather, wind, name } = weatherData;
+  
+   return(
+    <ImageBackground source={backgroundColor} style={styles.background}>
+      <View style={styles.container}>
         <View style={styles.header}>
-          <Text style={styles.location}>GALLE</Text>
-          <Text style={styles.date}>Wed 12 January 11:26 AM</Text>
+          <Text style={styles.location}>{name.toUpperCase()}</Text>
+          <Text style={styles.date}>{new Date().toLocaleString()}</Text>
         </View>
         <View style={styles.mainInfo}>
-          <Text style={styles.temperature}>28°</Text>
+          <Text style={styles.temperature}>{Math.round(main.temp)}°</Text>
           <View style={styles.weatherIcon}>
-            <Image source={require('../../assets/images/weatherpics/03d.png')} style={styles.icon} />
+            <Image source={{ uri: `https://openweathermap.org/img/w/${weather[0].icon}.png` }} style={styles.icon} />
           </View>
-          <Text style={styles.weatherDescription}>SCATTERED CLOUDS</Text>
+          <Text style={styles.weatherDescription}>{weather[0].description.toUpperCase()}</Text>
         </View>
         <View style={styles.details}>
           <View style={styles.detail}>
-            <Text style={styles.detailValue}>28°C</Text>
+            <Text style={styles.detailValue}>{Math.round(main.temp_max)}°C</Text>
             <Text style={styles.detailLabel}>Max Temp</Text>
           </View>
           <View style={styles.detail}>
-            <Text style={styles.detailValue}>67%</Text>
+            <Text style={styles.detailValue}>{main.humidity}%</Text>
             <Text style={styles.detailLabel}>Humidity</Text>
           </View>
           <View style={styles.detail}>
-            <Text style={styles.detailValue}>2.51m/s</Text>
+            <Text style={styles.detailValue}>{wind.speed} m/s</Text>
             <Text style={styles.detailLabel}>Wind</Text>
           </View>
         </View>
-        <View style={styles.forecast}>
-          <View style={styles.forecastItem}>
-            <Text style={styles.forecastTime}>11:30 AM</Text>
-            <Image source={require('../../assets/images/weatherpics/03d.png')} style={styles.icon} />
-            <Text style={styles.forecastTemp}>28.86°C</Text>
-          </View>
-          <View style={styles.forecastItem}>
-            <Text style={styles.forecastTime}>12:30 PM</Text>
-            <Image source={require('../../assets/images/weatherpics/03d.png')} style={styles.icon} />
-            <Text style={styles.forecastTemp}>28.83°C</Text>
-          </View>
-          <View style={styles.forecastItem}>
-            <Text style={styles.forecastTime}>1:30 PM</Text>
-            <Image source={require('../../assets/images/weatherpics/03d.png')} style={styles.icon} />
-            <Text style={styles.forecastTemp}>28.38°C</Text>
-          </View>
-        </View>
       </View>
-      </ImageBackground>
-  );
+    </ImageBackground>
+   );
+  // return (
+  //       <ImageBackground source={backgroundColor} style={styles.background}>
+  //       <View style={styles.container}>
+  //       <View style={styles.header}>
+  //         <Text style={styles.location}>GALLE</Text>
+  //         <Text style={styles.date}>Wed 12 January 11:26 AM</Text>
+  //       </View>
+  //       <View style={styles.mainInfo}>
+  //         <Text style={styles.temperature}>28°</Text>
+  //         <View style={styles.weatherIcon}>
+  //           <Image source={require('../../assets/images/weatherpics/03d.png')} style={styles.icon} />
+  //         </View>
+  //         <Text style={styles.weatherDescription}>SCATTERED CLOUDS</Text>
+  //       </View>
+  //       <View style={styles.details}>
+  //         <View style={styles.detail}>
+  //           <Text style={styles.detailValue}>28°C</Text>
+  //           <Text style={styles.detailLabel}>Max Temp</Text>
+  //         </View>
+  //         <View style={styles.detail}>
+  //           <Text style={styles.detailValue}>67%</Text>
+  //           <Text style={styles.detailLabel}>Humidity</Text>
+  //         </View>
+  //         <View style={styles.detail}>
+  //           <Text style={styles.detailValue}>2.51m/s</Text>
+  //           <Text style={styles.detailLabel}>Wind</Text>
+  //         </View>
+  //       </View>
+  //       <View style={styles.forecast}>
+  //         <View style={styles.forecastItem}>
+  //           <Text style={styles.forecastTime}>11:30 AM</Text>
+  //           <Image source={require('../../assets/images/weatherpics/03d.png')} style={styles.icon} />
+  //           <Text style={styles.forecastTemp}>28.86°C</Text>
+  //         </View>
+  //         <View style={styles.forecastItem}>
+  //           <Text style={styles.forecastTime}>12:30 PM</Text>
+  //           <Image source={require('../../assets/images/weatherpics/03d.png')} style={styles.icon} />
+  //           <Text style={styles.forecastTemp}>28.83°C</Text>
+  //         </View>
+  //         <View style={styles.forecastItem}>
+  //           <Text style={styles.forecastTime}>1:30 PM</Text>
+  //           <Image source={require('../../assets/images/weatherpics/03d.png')} style={styles.icon} />
+  //           <Text style={styles.forecastTemp}>28.38°C</Text>
+  //         </View>
+  //       </View>
+  //     </View>
+  //     </ImageBackground>
+  // );
 }
 
 const styles = StyleSheet.create({
+  loadingContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  errorContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
   container: {
     flex: 1,
     padding: 20,
