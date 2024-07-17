@@ -31,6 +31,7 @@ In this project, so far I have developed,
 
 - Main UI
 - API connection
+- Display weather details
 - Dynamic UI
 - Get the user's location
 - Change background according to the time of the day.
