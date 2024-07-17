@@ -2,7 +2,7 @@ import { Image, StyleSheet, Platform , View, Dimensions,Text,ImageBackground,Act
 import React, { useState, useEffect } from 'react';
 import * as Location from 'expo-location';
 import axios from 'axios';
-import { Ionicons } from '@expo/vector-icons';
+import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
 
 
 import { HelloWave } from '@/components/HelloWave';
@@ -72,6 +72,9 @@ fetchWeatherData();
     <ImageBackground source={backgroundColor} style={styles.background}>
       <View style={styles.container}>
         <View style={styles.header}>
+        <TouchableOpacity style={styles.headerLeft}>
+              <Ionicons name="refresh" size={24} color="white" />
+            </TouchableOpacity>
           <Text style={styles.location}>{name.toUpperCase()}</Text>
           <Text style={styles.date}>{new Date().toLocaleString()}</Text>
           <View style={styles.headerButtons}>
@@ -93,18 +96,24 @@ fetchWeatherData();
           </View>
           <Text style={styles.weatherDescription}>{weather[0].description.toUpperCase()}</Text>
         </View>
-        <View style={styles.details}>
+        <View style={styles.containerstyle}>
           <View style={styles.detail}>
-            <Text style={styles.detailValue}>{Math.round(main.temp_max)}°C</Text>
+          <Image />
+          {/* <MaterialCommunityIcons size={48} name="thermometer" color={'#000'} /> */}
+          <Image source={ require('../../assets/images/temp.jpeg') } style={styles.image} />
             <Text style={styles.detailLabel}>Max Temp</Text>
+            <Text style={styles.detailValue}>{Math.round(main.temp_max)}°C</Text>
           </View>
           <View style={styles.detail}>
+          {/* <MaterialCommunityIcons size={48} name="water" color={'#000'} /> */}
+          <Image source={ require('../../assets/images/humidity.png') } style={styles.image} />
+          <Text style={styles.detailLabel}>Humidity</Text>
             <Text style={styles.detailValue}>{main.humidity}%</Text>
-            <Text style={styles.detailLabel}>Humidity</Text>
           </View>
           <View style={styles.detail}>
-            <Text style={styles.detailValue}>{wind.speed} m/s</Text>
-            <Text style={styles.detailLabel}>Wind</Text>
+          <Image source={ require('../../assets/images/wind.png') } style={styles.image} />
+          <Text style={styles.detailLabel}>Wind</Text>
+          <Text style={styles.detailValue}>{wind.speed} m/s</Text>
           </View>
         </View>
       </View>
@@ -161,6 +170,19 @@ fetchWeatherData();
 }
 
 const styles = StyleSheet.create({
+  containerstyle: {
+    flexDirection: 'row',
+    backgroundColor: '#fff',
+    padding: 20,
+    borderRadius: 20,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.3,
+    shadowRadius: 3,
+    elevation: 5,
+    alignItems: 'center',
+    justifyContent: 'space-around',
+  },
   loadingContainer: {
     flex: 1,
     justifyContent: 'center',
@@ -222,6 +244,12 @@ const styles = StyleSheet.create({
     width: 100,
     height: 100,
     justifyContent: 'space-around'
+  }, 
+  image: {
+    marginTop:10,
+    width: 30,
+    height: 30,
+    justifyContent: 'space-around'
   },
   weatherDescription: {
     fontSize: 26,
@@ -232,6 +260,8 @@ const styles = StyleSheet.create({
   details: {
     flexDirection: 'row',
     justifyContent: 'space-around',
+    backgroundColor:'#fff',
+    margin:20,
     marginBottom: 20,
   },
   detail: {
@@ -239,7 +269,6 @@ const styles = StyleSheet.create({
   },
   detailValue: {
     fontSize: 18,
-    fontWeight: 'bold',
   },
   detailLabel: {
     fontSize: 14,
@@ -272,12 +301,22 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
   },
   headerButton: { 
-    marginLeft: 10,
+    marginLeft: 25,
   },
   tempAndIconContainer: {
     flexDirection: 'row',
     alignItems: 'center',
+  }, 
+   headerLeft: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginRight: 260,
+    marginTop: 15,
   },
+  refreshButton: {
+    marginLeft: 10,
+  }
+  
 }
 
 );
