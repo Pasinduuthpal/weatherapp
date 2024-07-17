@@ -78,15 +78,18 @@ fetchWeatherData();
           <TouchableOpacity style={styles.headerButton}>
               <Ionicons name="star" size={24} color="white" />
             </TouchableOpacity>
-            <TouchableOpacity style={styles.headerButton}>
+            <TouchableOpacity style={styles.headerButton}
+              onPress={() => navigator.navigate}>
               <Ionicons name="search" size={24} color="white" />
             </TouchableOpacity>
           </View>
         </View>
         <View style={styles.mainInfo}>
-          <Text style={styles.temperature}>{Math.round(main.temp)}°</Text>
-          <View style={styles.weatherIcon}>
-            <Image source={{ uri: `https://openweathermap.org/img/w/${weather[0].icon}.png` }} style={styles.icon} />
+          <View style={styles.tempAndIconContainer}>
+            <Text style={styles.temperature}>{Math.round(main.temp)}°</Text>
+            <View style={styles.weatherIcon}>
+              <Image source={{ uri: `https://openweathermap.org/img/w/${weather[0].icon}.png` }} style={styles.icon} />
+            </View>
           </View>
           <Text style={styles.weatherDescription}>{weather[0].description.toUpperCase()}</Text>
         </View>
@@ -208,19 +211,23 @@ const styles = StyleSheet.create({
   },
   temperature: {
     color: 'white',
-    fontSize: 72,
-    fontWeight: 'bold',
+    fontSize: 120,
   },
   weatherIcon: {
-    marginVertical: 10,
+    // marginVertical: 10,
   },
   icon: {
-    width: 50,
-    height: 50,
+    marginTop:40,
+    marginLeft:-40,
+    width: 100,
+    height: 100,
+    justifyContent: 'space-around'
   },
   weatherDescription: {
-    fontSize: 18,
+    fontSize: 26,
+    fontWeight: 'bold',
     color: 'white',
+    marginTop:-20,
   },
   details: {
     flexDirection: 'row',
@@ -257,15 +264,19 @@ const styles = StyleSheet.create({
     flex: 1,
     resizeMode: 'cover',
   },
-  headerButtons: { // Added styles for header buttons container
+  headerButtons: { 
     position: 'absolute',
     marginLeft:30,
     top: 10,
     right: 10,
     flexDirection: 'row',
   },
-  headerButton: { // Added styles for individual header buttons
+  headerButton: { 
     marginLeft: 10,
+  },
+  tempAndIconContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
   },
 }
 
