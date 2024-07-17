@@ -72,10 +72,18 @@ fetchWeatherData();
     <ImageBackground source={backgroundColor} style={styles.background}>
       <View style={styles.container}>
         <View style={styles.header}>
+        <View style={styles.headerButtonsone}>
         <TouchableOpacity style={styles.headerLeft}>
+              <Ionicons name="menu" size={24} color="white" />
+              </TouchableOpacity>
+              <TouchableOpacity style={styles.headerLeft}>
               <Ionicons name="refresh" size={24} color="white" />
             </TouchableOpacity>
+         </View>
+         <View style={styles.locationContainerTag}>
+          <Ionicons name="location" size={24} color="white"  />
           <Text style={styles.location}>{name.toUpperCase()}</Text>
+          </View>
           <Text style={styles.date}>{new Date().toLocaleString()}</Text>
           <View style={styles.headerButtons}>
           <TouchableOpacity style={styles.headerButton}>
@@ -99,13 +107,30 @@ fetchWeatherData();
         <View style={styles.containerstyle}>
           <View style={styles.detail}>
           <Image />
-          {/* <MaterialCommunityIcons size={48} name="thermometer" color={'#000'} /> */}
           <Image source={ require('../../assets/images/temp.jpeg') } style={styles.image} />
             <Text style={styles.detailLabel}>Max Temp</Text>
             <Text style={styles.detailValue}>{Math.round(main.temp_max)}°C</Text>
           </View>
           <View style={styles.detail}>
-          {/* <MaterialCommunityIcons size={48} name="water" color={'#000'} /> */}
+          <Image source={ require('../../assets/images/humidity.png') } style={styles.image} />
+          <Text style={styles.detailLabel}>Humidity</Text>
+            <Text style={styles.detailValue}>{main.humidity}%</Text>
+          </View>
+          <View style={styles.detail}>
+          <Image source={ require('../../assets/images/wind.png') } style={styles.image} />
+          <Text style={styles.detailLabel}>Wind</Text>
+          <Text style={styles.detailValue}>{wind.speed} m/s</Text>
+          </View>
+        </View>
+
+        <View style={styles.containerstyle}>
+          <View style={styles.detail}>
+          <Image />
+          <Image source={ require('../../assets/images/temp.jpeg') } style={styles.image} />
+            <Text style={styles.detailLabel}>Max Temp</Text>
+            <Text style={styles.detailValue}>{Math.round(main.temp_max)}°C</Text>
+          </View>
+          <View style={styles.detail}>
           <Image source={ require('../../assets/images/humidity.png') } style={styles.image} />
           <Text style={styles.detailLabel}>Humidity</Text>
             <Text style={styles.detailValue}>{main.humidity}%</Text>
@@ -123,6 +148,7 @@ fetchWeatherData();
 
 const styles = StyleSheet.create({
   containerstyle: {
+    marginTop:10,
     flexDirection: 'row',
     backgroundColor: '#fff',
     padding: 20,
@@ -169,7 +195,7 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   location: {
-    marginTop:30,
+    marginTop:10,
     fontSize: 24,
     fontWeight: 'bold',
     color: 'white',
@@ -180,7 +206,8 @@ const styles = StyleSheet.create({
   },
   mainInfo: {
     alignItems: 'center',
-    marginBottom: 20,
+    marginTop: -30,
+    marginBottom: 10,
     color: 'white',
   },
   temperature: {
@@ -252,6 +279,13 @@ const styles = StyleSheet.create({
     right: 10,
     flexDirection: 'row',
   },
+  headerButtonsone: { 
+    position: 'absolute',
+    marginLeft:10,
+    top: 1,
+    left: -40,
+    flexDirection: 'row',
+  },
   headerButton: { 
     marginLeft: 25,
   },
@@ -262,12 +296,21 @@ const styles = StyleSheet.create({
    headerLeft: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginRight: 260,
+    marginRight: 16,
     marginTop: 15,
+    marginLeft: 16,
+  },
+  refreshIcon: {
+    marginLeft: 10,
   },
   refreshButton: {
     marginLeft: 10,
-  }
+  },
+  locationContainerTag: {
+    marginTop:40,
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
   
 }
 
